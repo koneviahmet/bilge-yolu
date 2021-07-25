@@ -64,6 +64,7 @@ export default {
 
 
 .block{
+    opacity: 0.9;
     overflow: hidden;
     position: relative;
     border: solid 1px #ccc; 
@@ -75,6 +76,9 @@ export default {
 
 
 .centerContainer{
+    opacity: 1;
+    background: none;
+    border: none;
     grid-row: 2 / 6;
     grid-column: 2 / 14;
     display: flex;
@@ -128,5 +132,13 @@ export default {
 
 .blue{
     background: #263859;
+}
+
+.green{
+    background: #50CB93;
+}
+
+.yellow{
+    background: #FFA900;
 }
 </style>

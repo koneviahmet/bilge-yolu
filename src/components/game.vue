@@ -5,7 +5,7 @@
                   <Left />
               </div>
               <div class="right">
-                  <Right />
+                  <Right :colorList='colorList'/>
               </div>
           </div>
           <div class="block" v-for="i in 36" :key="i">
@@ -13,6 +13,16 @@
                     <!-- 
                     <img :src="'@/assets/images/home.png'" v-if="filterList(i).src">
                     -->
+                    <div class="pullContent">
+                        <div 
+                            class="pull" 
+                            v-for="x in 4" 
+                            :key="x" 
+                            :style="{'top': 0.4 + 'vw','left':(x * 0.5) + 'vw', 'color':pulColor(x).color, 'background':pulColor(x).background, 'border-color':pulColor(x).border}"
+                            >
+                            {{x}}
+                        </div>
+                    </div>
 
                     <img :src="getSrc(i)" v-if="filterList(i).src">
                     <div class="blockTop"></div>
@@ -26,12 +36,14 @@
 import Left from './left'
 import Right from './right'
 import dataJson from './data.json';
+import colorJson from './color.json';
 
 export default {
   name: 'App',
   data() {
       return {
-          blockList: [...dataJson]
+          blockList: [...dataJson],
+          colorList: [...colorJson]
       }
   },
   components: {
@@ -44,12 +56,14 @@ export default {
       },
       getSrc(i){
         return require('../assets/images/' + this.filterList(i).src);
+      },
+      pulColor(i){
+        let kalan = parseInt(i) % this.colorList.length;
+        return this.colorList[kalan];
       }
   }
 }
 </script>
-
-
 
 
 
@@ -62,6 +76,23 @@ export default {
     grid-template: 1fr 1fr 1fr 1fr 1fr 1fr / 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 
+.pullContent{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.pull{
+    position: absolute;
+    width: 2.4vw;;
+    height: 2.4vw;;
+    background: #9de6e8;
+    border: solid 2px #73b9d7;
+    color: #333;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1.8vw;
+}
 
 .block{
     opacity: 0.9;
@@ -69,7 +100,6 @@ export default {
     position: relative;
     border: solid 1px #ccc; 
     background: #f1f1f1; 
-    padding: 2px; 
     margin: 2px;
     font-size:  1.4vw;
 }
@@ -87,14 +117,14 @@ export default {
 
 
 .centerContainer .left{
-    background: #fff;
     flex: 1;
 }
 
 
 .centerContainer .right{
-    background: #ccc;
     flex: 1;
+    width: 100%;
+    height: 100%;
 }
 
 

@@ -7,9 +7,10 @@
                     :newGame='newGame' 
                     :game='game' 
                     :messages='getMessages()'
-                    :oyuncuSecmeDurumu='oyuncuSecmeDurumu'
                     :zarDurumu='zarDurumu'
                     :selectGamer='selectGamer'
+                    :oynayanOyuncu='oynayanOyuncu'
+                    :animIlerleme='animIlerleme'
                 
                     />
               </div>
@@ -53,9 +54,12 @@ export default {
   name: 'App',
   data() {
       return {
+          blockSize: 36,
+          maxIlerleme: 50,
+          animIlerleme: null, //ilerleme için animasyon yapıcak 1 / 2 / 3 / 4 vs..
           aciklama: {},
           game: false,
-          oyuncuSecmeDurumu: false,
+          oynayanOyuncu: 1,
           zarDurumu: false,
           blockList: [...dataJson],
           colorList: [...colorJson],
@@ -73,9 +77,10 @@ export default {
   methods: {
         newGame(){
             this.game               = false;
-            this.oyuncuSecmeDurumu  = false;
             this.zarDurumu          = false;
             this.oyuncuAdedi        = null;
+            this.animIlerleme       = null;
+            this.oynayanOyuncu      = 1;
             this.gamers             = [];
             this.messages           = [];
         },
@@ -130,14 +135,69 @@ export default {
                 'Oyun ile ilgili kartları <a href="#">buradan</a> indirebilirsiniz. ',
                 'Sınıf mevcudunuz çok ise oyunun daha verimli olması için üçer kişilik gruplar kurmanızı tavsiye ederiz.',
                 'Başaşrılar.'
-
             ];
 
             return this.game && this.messages || newStartMessages;
         },
         selectGamer(){
-            this.oyuncuSecmeDurumu = true;
+            this.zarDurumu = true;
+            this.getAnimIlerleme();
+        },
+        setOynayanOyuncu(){
+            if(this.oynayanOyuncu == this.oyuncuAdedi){
+                this.oynayanOyuncu = 1;
+            }else{
+                this.oynayanOyuncu += 1;
+            }
+            
+        },
+        getAnimIlerleme(){
+            this.animIlerleme = this.getRandomIlerleme();
+            let i = 0;
+            let selectInterval = setInterval(() => {
+                i++;
+                this.animIlerleme = this.getRandomIlerleme(); 
+
+                if(i == 10){
+                    this.next(this.animIlerleme);
+                    clearInterval(selectInterval);
+                }
+            }, 200);
+            
+        },
+        getRandomIlerleme(){
+            return Math.floor(Math.random() * this.maxIlerleme) + 1;  
+        },
+        next(newIlerlemeMiktari){
+            /* ilerleme miktarını seçtik */
+            //this.gamers[this.oynayanOyuncu - 1].sira += newIlerlemeMiktari;
+
+            let i = 0;
+            let nextInterval = setInterval(() => {
+                i++;
+                if(this.gamers[this.oynayanOyuncu - 1].sira == this.blockSize){
+                    /* tur atmış demektir. */
+                    this.gamers[this.oynayanOyuncu - 1].sira  = 1;
+                }else{
+                    this.gamers[this.oynayanOyuncu - 1].sira += 1;
+                }
+                
+
+                if(i == newIlerlemeMiktari){
+                    /* yeni oyunce seçmeyi aktif edelim */
+                    this.zarDurumu          = false;
+
+                    /* oyuncuyu 1 arttıralım */
+                    this.setOynayanOyuncu();
+
+                    clearInterval(nextInterval);
+                }
+            }, 200);
+
+     
         }
+        
+        
   }
 }
 </script>

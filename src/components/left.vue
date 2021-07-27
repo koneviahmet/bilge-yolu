@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="leftContent" v-if="(!oyuncuSecmeDurumu && !zarDurumu)">
+        <div class="leftContent" v-if="!zarDurumu">
             <div class="leftCenter">
                 <ul>
                     <li v-for="(msg, key) in messages" :key="key" v-html="msg"></li>
@@ -11,13 +11,25 @@
             </div>
             <div class="leftFooter">
                 <button class="btn btn-danger" v-if="!game" @click="start(oyuncuAdedi)">Başla</button>
-                <button class="btn btn-danger" v-if="game" @click="selectGamer()">Oyuncu Seç</button>
+                <button class="btn btn-danger" v-if="game" @click="selectGamer()">Sıradaki Oyuncu</button>
                 <button class="btn btn-danger" v-if="game" @click="newGame()" hidden>Yeni Oyun</button>
             </div> 
         </div>
 
-        <div class="selectContent" v-if="!(!oyuncuSecmeDurumu && !zarDurumu)">
-            oyuncu seç content
+        <div class="selectContent" v-if="zarDurumu">
+            <div class="select">
+                <h4>Oynayan Oyuncu</h4>
+                <div class="selectNumber">
+                    {{oynayanOyuncu}}
+                </div>
+            </div>
+            <div class="select">
+                <h4>İlerleme Miktarı</h4>
+                <div class="selectNumber">
+                    {{animIlerleme}}
+                </div>
+                
+            </div>
         </div>
     </div>
 </template>
@@ -32,12 +44,13 @@ export default {
     },
     props: {
         game: Boolean,
-        oyuncuSecmeDurumu: Boolean,
         zarDurumu: Boolean,
         start: Function,
         newGame: Function,
         selectGamer: Function,
-        messages: Array
+        animIlerleme: Number,
+        messages: Array,
+        oynayanOyuncu: Number
     }
 }
 </script>
@@ -48,6 +61,16 @@ export default {
     border: solid 1px #ccc;
     border-radius: 5px;
     background: #fff;
+    padding: 0.5vw;
+    display: grid;
+    grid-template: 1fr / 1fr 1fr;
+}
+
+.select{
+    text-align: center;
+    border: dashed 1px #ccc;
+    margin: 0.2vw;
+    padding: 0.2vw;
 }
 
 .leftContent {
@@ -99,5 +122,12 @@ export default {
     background: #dc3545;
     color: #fff;
 }
+
+.selectNumber{
+    text-align: center;
+    font-size: 4vw;
+}
+
+
 
 </style>

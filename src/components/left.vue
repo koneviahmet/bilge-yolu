@@ -1,24 +1,55 @@
 <template>
-    <div class="leftContent">
-        <div class="leftHeader">Header</div>
-        <div class="leftCenter">
-            <ul>
-                <li>açıklama 1</li>
-                <li>açıklama 2</li>
-                <li>açıklama 3</li>
-                <li>açıklama 4</li>
-            </ul>
+    <div>
+        <div class="leftContent" v-if="(!oyuncuSecmeDurumu && !zarDurumu)">
+            <div class="leftCenter">
+                <ul>
+                    <li v-for="(msg, key) in messages" :key="key" v-html="msg"></li>
+                </ul>
+            </div>
+            <div class="leftInput" v-if="!game">
+                <input type="text" placeholder="Sınıf Mevcudu" v-model="oyuncuAdedi"/>
+            </div>
+            <div class="leftFooter">
+                <button class="btn btn-danger" v-if="!game" @click="start(oyuncuAdedi)">Başla</button>
+                <button class="btn btn-danger" v-if="game" @click="selectGamer()">Oyuncu Seç</button>
+                <button class="btn btn-danger" v-if="game" @click="newGame()" hidden>Yeni Oyun</button>
+            </div> 
         </div>
-        <div class="leftInput">
-            <input type="text" placeholder="Sınıf Mevcudu"/>
+
+        <div class="selectContent" v-if="!(!oyuncuSecmeDurumu && !zarDurumu)">
+            oyuncu seç content
         </div>
-        <div class="leftFooter">
-            <button class="btn btn-danger">Başla</button>
-        </div> 
     </div>
 </template>
 
+<script>
+export default {
+    name: 'Left',
+    data() {
+        return {
+            oyuncuAdedi: null
+        }
+    },
+    props: {
+        game: Boolean,
+        oyuncuSecmeDurumu: Boolean,
+        zarDurumu: Boolean,
+        start: Function,
+        newGame: Function,
+        selectGamer: Function,
+        messages: Array
+    }
+}
+</script>
+
 <style scoped>
+.selectContent {
+    margin: 0.4vw;
+    border: solid 1px #ccc;
+    border-radius: 5px;
+    background: #fff;
+}
+
 .leftContent {
     margin: 0.4vw;
     border: solid 1px #ccc;
@@ -26,13 +57,6 @@
     background: #fff;
 }
 
-.leftHeader{
-    font-size: 1.4vw;
-    color: #fff;
-    background: #263859;
-    padding: 0.3vw 0.4vw;
-    border-bottom: solid 1px #ccc;
-}
 
 .leftCenter{
     font-size: 1.2vw;

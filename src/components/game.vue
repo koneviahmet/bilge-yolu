@@ -2,10 +2,19 @@
       <div id="container">
           <div class="block centerContainer">
               <div class="left">
-                  <Left />
+                  <Left 
+                    :start='start' 
+                    :newGame='newGame' 
+                    :game='game' 
+                    :messages='getMessages()'
+                    :oyuncuSecmeDurumu='oyuncuSecmeDurumu'
+                    :zarDurumu='zarDurumu'
+                    :selectGamer='selectGamer'
+                
+                    />
               </div>
               <div class="right">
-                  <Right :colorList='colorList' :gamers='gamers'/>
+                  <Right :colorList='colorList' :gamers='gamers' />
               </div>
           </div>
           <div class="block" v-for="(block, i) in blockList" :key="i">
@@ -19,7 +28,7 @@
                             class="pull" 
                             v-for="(gamer, x) in gamersFilter(getSira(i))" 
                             :key="x" 
-                            :style="{'color':pulColor(gamer.pul).color, 'background':pulColor(x).background, 'border-color':pulColor(gamer.pul).border}"
+                            :style="{'top': 0.4 + 'vw','left':(x * 0.5) + 'vw', 'color':pulColor(gamer.pul).color, 'background':pulColor(x).background, 'border-color':pulColor(gamer.pul).border}"
                             >
                             {{gamer.pul}}
                         </div>
@@ -44,26 +53,17 @@ export default {
   name: 'App',
   data() {
       return {
+          aciklama: {},
+          game: false,
+          oyuncuSecmeDurumu: false,
+          zarDurumu: false,
           blockList: [...dataJson],
           colorList: [...colorJson],
-          gamers: [
-              {
-                  pul: 1,
-                  sira: 0
-              },
-              {
-                  pul: 2,
-                  sira: 0
-              },
-              {
-                  pul: 3,
-                  sira: 1
-              },
-              {
-                  pul: 4,
-                  sira: 1
-              }
-          ]
+          oyuncuAdedi: null,
+          oyuncuAdediMax: 50,
+          oyuncuAdediMin: 2,
+          gamers: [],
+          messages: []
       }
   },
   components: {
@@ -71,6 +71,14 @@ export default {
     Right,
   },
   methods: {
+        newGame(){
+            this.game               = false;
+            this.oyuncuSecmeDurumu  = false;
+            this.zarDurumu          = false;
+            this.oyuncuAdedi        = null;
+            this.gamers             = [];
+            this.messages           = [];
+        },
         filterList(i){
             return this.blockList.filter(item => item.index == i)[0];
         },
@@ -87,6 +95,48 @@ export default {
         getSira(index){
             let newSira = [14,13,12,11,10,9,8,7,6,5,4,3,2,1,15,36,16,35,17,34,18,33,19,20,21,22,23,24,25,26,27,28,29,30,31,32];
             return newSira[index];
+        },
+        start(oyuncuAdedi){
+            if(!oyuncuAdedi){
+                alert("Oyuncu adedi girmelisiniz.");
+            }else{
+                let intOyuncuAdedi = parseInt(oyuncuAdedi);
+                if(intOyuncuAdedi < this.oyuncuAdediMin || oyuncuAdedi > this.oyuncuAdediMax){
+                    alert(this.oyuncuAdediMin+"-"+this.oyuncuAdediMax + " arasında oyuncu girebilirsiniz.")
+                }else{
+                    this.messages = ["İlk oyuncuyu seçerek oyuna başlayabilirsiniz."];
+                    this.game = true;
+                    this.oyuncuAdedi = intOyuncuAdedi;
+                    this.createNewGame();
+                }
+            }
+            
+        },
+        createNewGame(){
+            let newGamers = [];
+            for(let i=0; i < this.oyuncuAdedi; i++){
+                newGamers.push({
+                  pul: i + 1,
+                  sira: 0
+                })
+            }
+
+            this.gamers = [...newGamers];
+        },
+        getMessages(){
+            let newStartMessages = [
+                '<strong>Oyuna başlamadan önce dikkatlice okuyunuz.</strong>',
+                'Öğrencilerden <strong>bir kişiyi</strong> akıllı tahtaya <strong>bir kişiyide</strong> kasanın başına seçiniz ve diğer kalan öğrenci sayısını aşşağıdaki texte yazınız.',
+                'Oyun ile ilgili kartları <a href="#">buradan</a> indirebilirsiniz. ',
+                'Sınıf mevcudunuz çok ise oyunun daha verimli olması için üçer kişilik gruplar kurmanızı tavsiye ederiz.',
+                'Başaşrılar.'
+
+            ];
+
+            return this.game && this.messages || newStartMessages;
+        },
+        selectGamer(){
+            this.oyuncuSecmeDurumu = true;
         }
   }
 }

@@ -49,6 +49,7 @@ export default {
 }
 
 .pullContent{
+    min-height: 50%;
     background: #fff;
     border: solid 1px #ccc;
     border-radius: 5px;

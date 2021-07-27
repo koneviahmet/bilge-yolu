@@ -3,11 +3,11 @@
         <div class="pullContent">
             <div 
                 class="pull" 
-                v-for="x in 15" 
+                v-for="(gamer, x) in gamersFilter(0)" 
                 :key="x" 
-                :style="{'color':pulColor(x).color, 'background':pulColor(x).background, 'border-color':pulColor(x).border}"
+                :style="{'color':pulColor(gamer.pul).color, 'background':pulColor(x).background, 'border-color':pulColor(gamer.pul).border}"
                 >
-                {{x}}
+                {{gamer.pul}}
             </div>
         </div>
     </div>
@@ -18,7 +18,8 @@
 export default {
     name: 'Right',
     props: {
-        colorList: Array
+        colorList: Array,
+        gamers: Array
     },
     data() {
         return {
@@ -29,6 +30,9 @@ export default {
         pulColor(i){
             let kalan = parseInt(i) % this.colorList.length;
             return this.colorList[kalan];
+        },
+        gamersFilter(sira){
+            return this.gamers.filter(i => i.sira == sira);
         }
     }
     

@@ -5,28 +5,30 @@
                   <Left />
               </div>
               <div class="right">
-                  <Right :colorList='colorList'/>
+                  <Right :colorList='colorList' :gamers='gamers'/>
               </div>
           </div>
-          <div class="block" v-for="i in 36" :key="i">
+          <div class="block" v-for="(block, i) in blockList" :key="i">
                 <div class="blockContent">
                     <!-- 
                     <img :src="'@/assets/images/home.png'" v-if="filterList(i).src">
                     -->
+                    <!----> 
                     <div class="pullContent">
                         <div 
                             class="pull" 
-                            v-for="x in 4" 
+                            v-for="(gamer, x) in gamersFilter(getSira(i))" 
                             :key="x" 
-                            :style="{'top': 0.4 + 'vw','left':(x * 0.5) + 'vw', 'color':pulColor(x).color, 'background':pulColor(x).background, 'border-color':pulColor(x).border}"
+                            :style="{'color':pulColor(gamer.pul).color, 'background':pulColor(x).background, 'border-color':pulColor(gamer.pul).border}"
                             >
-                            {{x}}
+                            {{gamer.pul}}
                         </div>
                     </div>
-
-                    <img :src="getSrc(i)" v-if="filterList(i).src">
-                    <div class="blockTop"></div>
-                    <div class="blockBottom" :class="filterList(i).text && filterList(i).class" v-if="filterList(i).text">{{filterList(i).text}}</div> 
+                     
+                    <img :src="getSrc(block.index)" v-if="block.src">
+                    <div class="blockTop"><!--{{getSira(i)}}--></div>
+                    <div class="blockBottom" :class="block.text && block.class" v-if="block.text">{{block.text}}</div> 
+                     
                 </div>
           </div>
       </div>
@@ -43,7 +45,25 @@ export default {
   data() {
       return {
           blockList: [...dataJson],
-          colorList: [...colorJson]
+          colorList: [...colorJson],
+          gamers: [
+              {
+                  pul: 1,
+                  sira: 0
+              },
+              {
+                  pul: 2,
+                  sira: 0
+              },
+              {
+                  pul: 3,
+                  sira: 1
+              },
+              {
+                  pul: 4,
+                  sira: 1
+              }
+          ]
       }
   },
   components: {
@@ -51,16 +71,23 @@ export default {
     Right,
   },
   methods: {
-      filterList(i){
-          return this.blockList.filter(item => item.index == i)[0];
-      },
-      getSrc(i){
-        return require('../assets/images/' + this.filterList(i).src);
-      },
-      pulColor(i){
-        let kalan = parseInt(i) % this.colorList.length;
-        return this.colorList[kalan];
-      }
+        filterList(i){
+            return this.blockList.filter(item => item.index == i)[0];
+        },
+        getSrc(i){
+            return require('../assets/images/' + this.filterList(i).src);
+        },
+        pulColor(i){
+            let kalan = parseInt(i) % this.colorList.length;
+            return this.colorList[kalan];
+        },
+        gamersFilter(sira){
+            return this.gamers.filter(i => i.sira == sira);
+        },
+        getSira(index){
+            let newSira = [14,13,12,11,10,9,8,7,6,5,4,3,2,1,15,36,16,35,17,34,18,33,19,20,21,22,23,24,25,26,27,28,29,30,31,32];
+            return newSira[index];
+        }
   }
 }
 </script>

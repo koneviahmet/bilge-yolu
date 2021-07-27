@@ -1,42 +1,7 @@
 [
     {
-        "color": "#fff",
-        "border": "#fd3a69",
-        "background":"#fecd1a"
-    },
-    {
-        "color": "#fff",
-        "border": "#120078",
-        "background":"#9d0191"
-    },
-    {
-        "color": "#fff",
-        "border": "#22213d",
-        "background":"#eaef9b"
-    },
-    {
-        "color": "#fff",
-        "border": "#8d6ec8",
-        "background":"#e4f5e5"
-    },
-    {
-        "color": "#fff",
-        "border": "#fd3a69",
-        "background":"#fecd1a"
-    },
-    {
-        "color": "#fff",
-        "border": "#8d6ec8",
-        "background":"#e4f5e5"
-    },
-    {
-        "color": "#fff",
-        "border": "#21243d",
-        "background":"#ffd082"
-    },
-    {
-        "color": "#fff",
-        "border": "#88e1f2",
-        "background":"#ff7c7c"
+        "color": "#333",
+        "border": "#ffcb74",
+        "background":"#ffcb74"
     }
 ]

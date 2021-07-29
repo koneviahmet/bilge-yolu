@@ -54,8 +54,9 @@ export default {
   name: 'App',
   data() {
       return {
+          newSira: [14,13,12,11,10,9,8,7,6,5,4,3,2,1,15,36,16,35,17,34,18,33,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
           blockSize: 36,
-          maxIlerleme: 50,
+          maxIlerleme: 40,
           animIlerleme: null, //ilerleme için animasyon yapıcak 1 / 2 / 3 / 4 vs..
           aciklama: {},
           game: false,
@@ -98,8 +99,7 @@ export default {
             return this.gamers.filter(i => i.sira == sira);
         },
         getSira(index){
-            let newSira = [14,13,12,11,10,9,8,7,6,5,4,3,2,1,15,36,16,35,17,34,18,33,19,20,21,22,23,24,25,26,27,28,29,30,31,32];
-            return newSira[index];
+            return this.newSira[index];
         },
         start(oyuncuAdedi){
             if(!oyuncuAdedi){
@@ -122,7 +122,8 @@ export default {
             for(let i=0; i < this.oyuncuAdedi; i++){
                 newGamers.push({
                   pul: i + 1,
-                  sira: 0
+                  sira: 0,
+                  started: false
                 })
             }
 
@@ -171,6 +172,15 @@ export default {
         next(newIlerlemeMiktari){
             /* ilerleme miktarını seçtik */
             //this.gamers[this.oynayanOyuncu - 1].sira += newIlerlemeMiktari;
+            this.messages = [];
+            this.messages.push(this.gamers[this.oynayanOyuncu - 1].pul + " numaralı oyuncu");
+
+            /* ilk oynamayı true yapalım */
+            
+            if(!this.gamers[this.oynayanOyuncu - 1].started){
+                this.messages.push("Oyuna yeni başladığın için kasadan 500 tane puan al.");
+                this.gamers[this.oynayanOyuncu - 1].started = true;
+            }
 
             let i = 0;
             let nextInterval = setInterval(() => {
@@ -178,14 +188,28 @@ export default {
                 if(this.gamers[this.oynayanOyuncu - 1].sira == this.blockSize){
                     /* tur atmış demektir. */
                     this.gamers[this.oynayanOyuncu - 1].sira  = 1;
+
+                    /* 1 tur döbmüş demektir demektir. */
+                    this.messages.push("Oyunda bir tur attığın için kasadan 500 tane puan al.");
                 }else{
                     this.gamers[this.oynayanOyuncu - 1].sira += 1;
                 }
                 
 
                 if(i == newIlerlemeMiktari){
+                    /* ilerleme durdu demektir. */
+
                     /* yeni oyunce seçmeyi aktif edelim */
-                    this.zarDurumu          = false;
+                    this.zarDurumu  = false;
+
+                    /* oyuncu bilgileri */
+                    let gamerInfo   = this.gamers[this.oynayanOyuncu - 1];
+                    
+                    /* block bilgileri */
+                    let blockInfo   = this.blockList.filter(i => i.index == this.newSira.indexOf(gamerInfo.sira) + 1)[0];
+                    this.messages.push(this.setTypeMessages(blockInfo));
+            
+                    //Note: burada gelen bloğun tipine göre ayarlamalar yaptır.
 
                     /* oyuncuyu 1 arttıralım */
                     this.setOynayanOyuncu();
@@ -195,6 +219,19 @@ export default {
             }, 200);
 
      
+        },
+        setTypeMessages(blockInfo){
+            let messages = {
+                soru: "soru ile ilgili mesaj",
+                kasa: 'Kasa İle ilgili mesaj',
+                ates: 'ates İle ilgili mesaj',
+                carpi4: 'carpi4 İle ilgili mesaj',
+                carpi2: 'carpi2 İle ilgili mesaj',
+                hediye: 'hediye İle ilgili mesaj',
+                home: 'home İle ilgili mesaj'
+            }
+
+            return messages[blockInfo.type];
         }
         
         

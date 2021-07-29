@@ -13,7 +13,7 @@
     },
     {
         "index": 3,
-        "type": "kasa",
+        "type": "ates",
         "src": "ates.png"
     },
     {
@@ -24,7 +24,7 @@
     },
     {
         "index": 5,
-        "type": "kasa",
+        "type": "carpi4",
         "src": "carpi4.png"
     },
     {
@@ -35,7 +35,7 @@
     },
     {
         "index": 7,
-        "type": "kasa",
+        "type": "soru",
         "src": "soru.png"
     },
     {
@@ -58,7 +58,7 @@
     },
     {
         "index": 11,
-        "type": "kasa",
+        "type": "soru",
         "src": "soru.png"
     },
     {
@@ -69,7 +69,7 @@
     },
     {
         "index": 13,
-        "type": "kasa",
+        "type": "hediye",
         "src": "hediye.png"
     },
     {
@@ -80,7 +80,7 @@
     },
     {
         "index": 15,
-        "type": "kasa",
+        "type": "home",
         "src": "home.png"
     },
     {
@@ -97,7 +97,7 @@
     },
     {
         "index": 18,
-        "type": "kasa",
+        "type": "soru",
         "src": "soru.png"
     },
     {
@@ -108,12 +108,12 @@
     },
     {
         "index": 20,
-        "type": "kasa",
+        "type": "hediye",
         "src": "hediye.png"
     },
     {
         "index": 21,
-        "type": "kasa",
+        "type": "hediye",
         "src": "hediye.png"
     },
     {
@@ -130,7 +130,7 @@
     },
     {
         "index": 24,
-        "type": "kasa",
+        "type": "soru",
         "src": "soru.png"
     },
     {
@@ -141,12 +141,12 @@
     },
     {
         "index": 26,
-        "type": "kasa",
+        "type": "carpi4",
         "src": "carpi4.png"
     },
     {
         "index": 27,
-        "type": "kasa",
+        "type": "ates",
         "src": "ates.png"
     },
     {
@@ -157,7 +157,7 @@
     },
     {
         "index": 29,
-        "type": "kasa",
+        "type": "carpi2",
         "src": "carpi2.png"
     },
     {
@@ -174,7 +174,7 @@
     },
     {
         "index": 32,
-        "type": "kasa",
+        "type": "hediye",
         "src": "hediye.png"
     },
     {
@@ -191,13 +191,13 @@
     },
     {
         "index": 35,
-        "type": "kasa",
+        "type": "carpi2",
         "src": "carpi2.png"
 
     },
     {
         "index": 36,
-        "type": "kasa",
+        "type": "home",
         "src": "home.png"
     }
 ]

@@ -11,7 +11,6 @@
                     :selectGamer='selectGamer'
                     :oynayanOyuncu='oynayanOyuncu'
                     :animIlerleme='animIlerleme'
-                
                     />
               </div>
               <div class="right">
@@ -56,7 +55,7 @@ export default {
       return {
           newSira: [14,13,12,11,10,9,8,7,6,5,4,3,2,1,15,36,16,35,17,34,18,33,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
           blockSize: 36,
-          maxIlerleme: 40,
+          maxIlerleme: 8,
           animIlerleme: null, //ilerleme için animasyon yapıcak 1 / 2 / 3 / 4 vs..
           aciklama: {},
           game: false,
@@ -159,11 +158,11 @@ export default {
                 i++;
                 this.animIlerleme = this.getRandomIlerleme(); 
 
-                if(i == 10){
+                if(i == 12){
                     this.next(this.animIlerleme);
                     clearInterval(selectInterval);
                 }
-            }, 200);
+            }, 300);
             
         },
         getRandomIlerleme(){
@@ -216,7 +215,7 @@ export default {
 
                     clearInterval(nextInterval);
                 }
-            }, 200);
+            }, 500);
 
      
         },

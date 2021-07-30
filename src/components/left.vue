@@ -82,14 +82,15 @@ export default {
 
 
 .leftCenter{
-    font-size: 1.2vw;
-    padding: 0.8vw;
+    font-size: 1.1vw;
+    padding: 1.2vw;
     border-bottom: solid 1px #ccc;
 }
 
 .leftCenter ul{
-    margin-left: 1.2vw;
+    margin-left: 1vw;
     list-style: disc;
+    line-height: 02.vw;
 }
 
 .leftInput{

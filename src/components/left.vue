@@ -90,7 +90,7 @@ export default {
 .leftCenter ul{
     margin-left: 1vw;
     list-style: disc;
-    line-height: 02.vw;
+    line-height: 1.6vw;
 }
 
 .leftInput{

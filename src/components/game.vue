@@ -162,7 +162,7 @@ export default {
                     this.next(this.animIlerleme);
                     clearInterval(selectInterval);
                 }
-            }, 300);
+            }, 300); // 300
             
         },
         getRandomIlerleme(){
@@ -206,31 +206,72 @@ export default {
                     
                     /* block bilgileri */
                     let blockInfo   = this.blockList.filter(i => i.index == this.newSira.indexOf(gamerInfo.sira) + 1)[0];
-                    this.messages.push(this.setTypeMessages(blockInfo));
-            
-                    //Note: burada gelen bloğun tipine göre ayarlamalar yaptır.
+
+                    //gelen bloğun tipine göre bildirelim
+                    this.typeAction(gamerInfo, blockInfo);
 
                     /* oyuncuyu 1 arttıralım */
                     this.setOynayanOyuncu();
 
+
                     clearInterval(nextInterval);
                 }
-            }, 500);
+            }, 500); //500
 
      
         },
-        setTypeMessages(blockInfo){
-            let messages = {
-                soru: "soru ile ilgili mesaj",
-                kasa: 'Kasa İle ilgili mesaj',
-                ates: 'ates İle ilgili mesaj',
-                carpi4: 'carpi4 İle ilgili mesaj',
-                carpi2: 'carpi2 İle ilgili mesaj',
-                hediye: 'hediye İle ilgili mesaj',
-                home: 'home İle ilgili mesaj'
+        typeAction(gamerInfo, blockInfo){
+            let blockIndex = parseInt(blockInfo.index) - 1;
+            let gamerIndex = parseInt(gamerInfo.pul) - 1;
+
+            if (blockInfo.type == "kasa"){
+
+                /* kasanın sahibi var mı ona bakalım */
+                if(!blockInfo.gamer){
+                    //this.blokList[7].text = gamerInfo.pul + ". Oyuncu";
+                    this.blockList[blockIndex].text = gamerInfo.pul + ". Oyuncu";
+                    this.messages.push("Tebrikler artık bu kasanın sahibisin.");
+                    this.blockList[blockIndex].gamer = gamerInfo.pul;
+                    this.messages.push("Kutudan bir soru seç.");
+                    this.messages.push("Soruyu doğru bilirsen <strong>kasadan</strong> sorunun üzerinde yazan kadar puan al, bilemezsen <strong>kasaya</strong>  kağıdın üzerinde yazan kadar puan ver.");
+
+                }else{
+                    this.messages.push("Kutudan bir soru seç.");
+                    this.messages.push("Soruyu doğru bilirsen <strong>kasadan</strong> sorunun üzerinde yazan kadar puan al, bilemezsen <strong>"+this.blockList[blockIndex].gamer+". oyuncuya </strong>  kağıdın üzerinde yazan kadar puan ver.");
+                }
+
+
+            
+            }else if(blockInfo.type == "carpi2"){
+                this.messages.push("Şanslı Günündesin.");
+                this.messages.push("Kutudan bir soru seç.");
+                this.messages.push("Soruyu doğru bilirsen <strong>kasadan</strong> sorunun üzerinde yazan puan miktarının iki katını al, bilemezsen <strong>kasaya</strong>  kağıdın üzerinde yazan puan miktarını kasaya ver.");
+
+            }else if(blockInfo.type == "carpi4"){
+                this.messages.push("Süper Şanslı Günündesin :)");
+                this.messages.push("Kutudan bir soru seç.");
+                this.messages.push("Soruyu doğru bilirsen <strong>kasadan</strong> sorunun üzerinde yazan puan miktarının dört katını al, bilemezsen <strong>kasaya</strong>  kağıdın üzerinde yazan puan miktarını kasaya ver.");
+    
+            }else if(blockInfo.type == "home"){
+                this.messages.push("İşler yolunda gitmiyor gibi.");
+                this.messages.push("Başlangıç noktasına git ve sıranın tekrar sana gelmesini bekle.");
+
+                this.gamers[gamerIndex].sira = 0;
+            
+            }else if(blockInfo.type == "soru"){
+                this.messages.push("Kutudan bir soru seç.");
+                this.messages.push("Soruyu doğru bilirsen <strong>kasadan</strong> sorunun üzerinde yazan kadar puan al, bilemezsen <strong>kasaya</strong>  kağıdın üzerinde yazan kadar puan ver.");
+
+                
+            }else if(blockInfo.type == "hediye"){
+                this.messages.push("Tebrikler kasadan 100 puan kazandın.");
+
+            }else if(blockInfo.type == "ates"){
+                this.messages.push("Üzgünüm seni ateşten kurtarmam için kasaya 100 puan vermelisin. ");
             }
 
-            return messages[blockInfo.type];
+
+
         }
         
         
